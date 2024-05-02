@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Text to be chechked</title>
+        <script >
+            function calculatetextinfo(){
+                let text = document.getElementById('textinput').value;
+                let lettersCount = 0; 
+                let wordsCount = 0; 
+                let sentencesCount = 0;
+                let prevSentenceEnded = true;
+                let prevWordEnded = true;
+                
+                for( let i = 0; i < text.length; i ++){
+
+                    // get char from text at index i
+                    let char = text.charAt(i);
+                    
+                    // LETTERS
+                    // check if char is letter and incrase letters count by 1
+                    let charIsLetter = false;
+                    if(char >= 'A' && char <= 'Z' || char >='a' && char <= 'z'){
+                        lettersCount += 1;
+                        charIsLetter = true;
+                    }
+                    
+                    // WORDS
+                    // chceck if prev char is not letter and current char is letter,
+                    // increse words count by 1
+                    if(charIsLetter && prevWordEnded == true){
+                        wordsCount += 1;
+                        prevWordEnded = false;
+                    }// check if word ended
+                    else if(charIsLetter == false){
+                        prevWordEnded = true;
+                    }
+
+                    // SENTENCES
+                    // check if prev sentence ended and current char is letter, 
+                    // increse sentencess count by 1
+                    if(charIsLetter && prevSentenceEnded == true){
+                        sentencesCount += 1;
+                        prevSentenceEnded = false;
+                    }// check if sentence ended by '.' or new line symbol
+                    else if(char == '.' || char == '\n') prevSentenceEnded = true;
+                }
+                document.getElementById('textoutput').innerText = `letters: ${lettersCount}, words: ${wordsCount}, sentences: ${sentencesCount}`;
+            }
+        </script>
+    </head>
+<body>
+    <div style="text-align:center;"> 
+        <label for="textinput" style="font-weight: bold; font-size: larger;">Input Text </label> <br/>
+        <textarea id="textinput"  rows="20" cols="120" oninput="calculatetextinfo()"> </textarea>
+        <!-- <br/><br/><br/><button type="button" title="calc" onclick="calculatetextinfo()" style="font-weight: normal; font-size: larger;padding: 2ch 4ch 2ch 4ch;">calculate</button></div> -->
+        <br/><span id="textoutput">letters: 0, words: 0, sentences: 0</span> 
+    </div>
+    
+</body>
+</html>
